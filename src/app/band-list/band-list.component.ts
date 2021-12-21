@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { interval } from 'rxjs';
+import { interval, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { BandDataService } from '../band-data.service';
 import { Band } from '../model';
@@ -10,23 +10,11 @@ import { Band } from '../model';
   styleUrls: ['./band-list.component.css']
 })
 export class BandListComponent implements OnInit {
-  bandList: Band[] | undefined;
+  bandList$: Observable<Band[]> | undefined;
 
   constructor(private bandDataService: BandDataService) {
-    const o = interval(1000).pipe(
-      map(v => v * v),                    // Operator to transform
-      filter(v => v %2 == 0)               // Operatpr to filter 
-    )
 
-    // for more operators see https://reactivex.io
-    
-
-    o.subscribe(
-      (value)=>{console.log(value)}
-    );
-    this.bandDataService.getBands().subscribe(bands => {
-      this.bandList = bands;
-    });
+    this.bandList$= this.bandDataService.getBands();
   }
 
   ngOnInit(): void {
