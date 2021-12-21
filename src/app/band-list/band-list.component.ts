@@ -14,9 +14,11 @@ export class BandListComponent implements OnInit {
 
   constructor(private bandDataService: BandDataService) {
     const o = interval(1000).pipe(
-      map(v => v * v),
-      filter(v => v %2 == 0)
+      map(v => v * v),                    // Operator to transform
+      filter(v => v %2 == 0)               // Operatpr to filter 
     )
+
+    // for more operators see https://reactivex.io
     
 
     o.subscribe(
